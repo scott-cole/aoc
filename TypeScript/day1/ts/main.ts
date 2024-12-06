@@ -19,22 +19,16 @@ splitLines.forEach(line => {
 const sortedListA = listA.sort();
 const sortedListB = listB.sort();
 
-const distances: number[] = [];
 
-// Find lowest number listA and use index to index listB
-sortedListA.forEach((aNum, i) => {
+const distances = sortedListA.map((aNum, i) => {
   const bNum = sortedListB[i];
   const distance = Math.abs(aNum - bNum);
-  
-  // Store the answer in new list
-  distances.push(distance)
+  return distance
 })
 
 // add difference totals to get answer
-let totalDistance = 0
-
-distances.forEach((num) => {
-  totalDistance += num 
+const totalDistance = distances.reduce((curr, total) => {
+  return curr + total
 })
 
 console.log(totalDistance)
