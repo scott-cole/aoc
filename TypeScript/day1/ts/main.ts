@@ -32,3 +32,11 @@ const totalDistance = distances.reduce((curr, total) => {
 })
 
 console.log(totalDistance)
+
+// zip concenpt functional programming
+const zipped = sortedListA.map((e, i) => ([e, sortedListB[i]]));
+const diffs = zipped.map(([aNum, bNum]) => Math.abs(aNum - bNum));
+const sum = diffs.reduce((aNum, bNum) => aNum + bNum, 0)
+
+console.log(sum)
+
