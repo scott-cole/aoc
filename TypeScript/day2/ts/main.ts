@@ -1,23 +1,52 @@
-const text = await Deno.readTextFile("input.txt")
-
-const splitLines = text.split("\n");
-
-function countAscending(arr: string[]): number {
-  const isAscending = (str: string): boolean => {
-    const numbers = str.split(" ").map(Number);
-
-    for ( let i = 1; i < numbers.length; i++ ) {
-      if ( numbers[i] - numbers[i + 1] > 2) {
-        return false;
-      }
+const increasing = (report: number[]) => {
+  for (let i = 0; i < report.length - 1; i++) {
+    if ( report[i] < report[i + 1]) {
+      return false;
     }
-    return true;
-  };
-  return arr.reduce((count, str) => count + (isAscending(str) ? 1 : 0), 0);
-}
+  }
+  
+  return true;
+};
 
-// const totalSafe = countAscending(splitLines) + countDescending(splitLines)
-// 
+const decreasing = (report: number[]) => {
+  for (let i = 0; i < report.length - 1; i++) {
+    if ( report[i] < report[i + 1]) {
+      return false;
+    }
+  }
+  
+  return true;
+};
 
+const oneway = (report: number[]) => {
+  return increasing(report) || decreasing(report)
+};
 
-// console.log(totalSafe);
+const text = await Deno.readTextFile("input.txt")
+const splitLines = text.split("\n").slice(0, -1);
+
+const reports = splitLines
+.map((line) => {
+  const elems = line.split(" ");
+  return elems.map((elem) => parseInt(elem))
+})
+.filter(report => oneway(report))
+.map((report) => {
+  return report.sort((i, j) => i - j);
+});
+
+let sum = 0;
+
+reports.forEach(report => {
+  for (let i = 0; i < reports.length - 1; i++){
+    const diff = report[i + 1] - report[i];
+
+   if (diff <= 0 || diff > 3) {
+    return;
+   }
+  }
+
+  sum += 1;
+});
+
+console.log(sum);
